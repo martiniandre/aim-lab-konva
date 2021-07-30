@@ -1,3 +1,7 @@
 #root{
   min-height: 100vh;
+  background: url("./assets/background.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
 }

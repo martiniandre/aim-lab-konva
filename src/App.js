@@ -9,36 +9,66 @@ function App() {
   const [score, setScore] = useState(0);
   const [errors, setErrors] = useState(0);
   const [balls, setBalls] = useState([]);
-
+  const [difficulty, setDifficulty] = useState('easy');
   const layerRef = useRef();
-  const [isPlaying, setIsPlaying] = useState(false);
   const [isGameStarted, setIsGameStarted] = useState(false);
 
-  /*  useEffect(() => {
-     if (!isPlaying || !isGameStarted) return;
-     console.log(isPlaying);
-   }, [isPlaying, isGameStarted]); */
+
 
   const startGame = () => {
-    console.log('iniciei');
+    if (isGameStarted) {
+      setBalls([]);
+      setErrors(0);
+      setIsGameStarted(!isGameStarted);
+    }
     setIsGameStarted(!isGameStarted);
-    setIsPlaying(true);
+  };
+
+  const difficultyOptions = (difficulty) => {
+    switch (difficulty) {
+      case "easy":
+        return {
+          totalBalls: 20,
+          width: 80,
+          height: 80
+        };
+      case "normal":
+        return {
+          totalBalls: 30,
+          width: 30,
+          height: 30
+        };
+      case "hard":
+        return {
+          totalBalls: 40,
+          width: 20,
+          height: 20
+        };
+      default: return;
+    }
   };
 
   useEffect(() => {
     if (!isGameStarted) return setBalls([]);
+
+    const { totalBalls, width, height } = difficultyOptions(difficulty);
     let arr = [];
-    for (let x = 0; x < 20; x++) {
+    const colors = ['#83BCFF', '#73E2A7', '#BFC0C0', '#645986'];
+
+    for (let x = 0; x < totalBalls; x++) {
       arr.push({
         id: (Math.random() * 1000),
-        x: (Math.random() * 1000.81),
+        x: (Math.random() * 1000),
         y: (Math.random() * 400),
+        height,
+        width,
         radius: 50,
-        fill: "green"
+        fill: colors[Math.floor(Math.random() * colors.length)],
+        stroke: colors[Math.floor(Math.random() * colors.length)],
       });
       setBalls(arr);
     }
-  }, [isGameStarted]);
+  }, [isGameStarted, difficulty]);
 
   const handleHitBalls = (id) => {
     setScore(score => score + 1);
@@ -46,15 +76,31 @@ function App() {
     setBalls(newBalls);
 
   };
-  const handleClickBoard = () => {
-    if (layerRef.current.children) return;
-    console.log("stage");
+  const handleClickBoard = (e) => {
+    if (errors === 10 || !isGameStarted) {
+      setIsGameStarted(false);
+      setErrors(0);
+      setScore(0);
+      return;
+    }
+    e.currentTarget.width && setErrors(errors => errors + 1);
+
   };
 
   return (
     <main>
-      <Score value={score} errors={errors} startGame={startGame} />
-      <Board handleClickBoard={handleClickBoard} handleClickBall={handleHitBalls} layerRef={layerRef} balls={balls} />
+      <Score
+        value={score}
+        errors={errors}
+        startGame={startGame}
+        isGameStarted={isGameStarted} difficulty={difficulty}
+        setDifficulty={setDifficulty} />
+      <Board
+        handleClickBoard={handleClickBoard}
+        handleClickBall={handleHitBalls}
+        layerRef={layerRef}
+        balls={balls}
+        errors={errors} />
     </main>
   );
 }
