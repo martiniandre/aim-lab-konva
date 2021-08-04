@@ -19,8 +19,6 @@ const Board = ({ handleClickBall, handleClickBoard, layerRef, balls }) => {
                   stroke="white"
                   strokeWidth={2}
                   onClick={() => handleClickBall(ball.id)} />
-
-
               ))}
             </Group>
           </Layer>
