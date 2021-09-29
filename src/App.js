@@ -26,6 +26,8 @@ function App() {
     setIsGameStarted(!isGameStarted);
   };
 
+
+
   useEffect(() => {
     if(!isGameStarted) return setBalls([])
     const colors = ['#83BCFF', '#73E2A7', '#BFC0C0', '#645986'];
@@ -46,8 +48,6 @@ function App() {
     }, speed)
 
   },[isGameStarted])
-
-
 
  
   const handleHitBalls = (id) => {
