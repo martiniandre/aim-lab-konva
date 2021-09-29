@@ -35,7 +35,7 @@ function App() {
 
     setInterval(() => {
       const newBall = {
-        id: Math.floor(Math.random() * 1000),
+        id: Math.floor(Math.random() * 100000),
         x: Math.floor(Math.random() * 1000),
         y: Math.floor(Math.random() * 400),
         height: 30,

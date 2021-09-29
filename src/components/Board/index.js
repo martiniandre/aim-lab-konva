@@ -14,7 +14,6 @@ const Board = ({ hitBall, handleClickBoard, layerRef, balls }) => {
           <Layer ref={layerRef}>
             <Group x={60} y={60}>
               {balls.map(ball => {
-                console.log(ball)
                return <Ball key={ball.id} x={ball.x} y={ball.y} hitBall={() => hitBall(ball.id)} fill={ball.fill}/>
               })}
             </Group>
