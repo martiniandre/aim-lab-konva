@@ -15,6 +15,8 @@ function App() {
 
 
 
+
+
   const startGame = () => {
     if (isGameStarted) {
       setBalls([]);
@@ -24,67 +26,44 @@ function App() {
     setIsGameStarted(!isGameStarted);
   };
 
-  const difficultyOptions = (difficulty) => {
-    switch (difficulty) {
-      case "easy":
-        return {
-          totalBalls: 20,
-          width: 80,
-          height: 80
-        };
-      case "normal":
-        return {
-          totalBalls: 30,
-          width: 30,
-          height: 30
-        };
-      case "hard":
-        return {
-          totalBalls: 40,
-          width: 20,
-          height: 20
-        };
-      default: return;
-    }
-  };
-
   useEffect(() => {
-    if (!isGameStarted) return setBalls([]);
-
-    const { totalBalls, width, height } = difficultyOptions(difficulty);
-    let arr = [];
+    if(!isGameStarted) return setBalls([])
     const colors = ['#83BCFF', '#73E2A7', '#BFC0C0', '#645986'];
+    let speed = 1000
 
-    for (let x = 0; x < totalBalls; x++) {
-      arr.push({
-        id: (Math.random() * 1000),
-        x: (Math.random() * 1000),
-        y: (Math.random() * 400),
-        height,
-        width,
+    setInterval(() => {
+      const newBall = {
+        id: Math.floor(Math.random() * 1000),
+        x: Math.floor(Math.random() * 1000),
+        y: Math.floor(Math.random() * 400),
+        height: 30,
+        width: 30,
         radius: 50,
         fill: colors[Math.floor(Math.random() * colors.length)],
         stroke: colors[Math.floor(Math.random() * colors.length)],
-      });
-      setBalls(arr);
-    }
-  }, [isGameStarted, difficulty]);
+      }
+      setBalls(balls => [...balls,newBall])
+    }, speed)
 
+  },[isGameStarted])
+
+
+
+ 
   const handleHitBalls = (id) => {
     setScore(score => score + 1);
     const newBalls = balls.filter(ball => ball.id !== id);
     setBalls(newBalls);
-
   };
-  const handleClickBoard = (e) => {
+
+  const boardClick = (e) => {
     if (errors === 10 || !isGameStarted) {
       setIsGameStarted(false);
       setErrors(0);
       setScore(0);
       return;
     }
-    e.currentTarget.width && setErrors(errors => errors + 1);
-
+    e.target.attrs.container && setErrors(errors => errors + 1);
   };
 
   return (
@@ -96,8 +75,8 @@ function App() {
         isGameStarted={isGameStarted} difficulty={difficulty}
         setDifficulty={setDifficulty} />
       <Board
-        handleClickBoard={handleClickBoard}
-        handleClickBall={handleHitBalls}
+        handleClickBoard={boardClick}
+        hitBall={handleHitBalls}
         layerRef={layerRef}
         balls={balls}
         errors={errors} />
