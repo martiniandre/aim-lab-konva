@@ -1,4 +1,5 @@
 import { Stage, Layer, Group, } from 'react-konva';
+import './styles.css'
 import Ball from '../Ball';
 
 const Board = ({ hitBall, handleClickBoard, layerRef, balls }) => {

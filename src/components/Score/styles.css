@@ -1,0 +1,39 @@
+.scoreBoard {
+    width: 500px;
+    margin: auto;
+    padding:10px;
+}
+.scoreBoard > div {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background-color: #15507C
+}
+.scoreBoard span {
+    margin-right:  10px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.scoreBoard button{ 
+    padding: 10px 20px;
+    background-color: green;
+    border: none;
+    color: white;
+    font-weight: bold;
+}
+
+.scoreBoard button:hover{
+    filter: brightness(0.9)
+}
+
+.score{
+    color: white;
+    background-color:rgb(50, 173, 132);
+    
+}
+
+.errors{
+    color: white;
+    background-color:red
+}
